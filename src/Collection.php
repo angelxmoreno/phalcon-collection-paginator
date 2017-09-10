@@ -14,7 +14,7 @@ use Phalcon\Paginator\Exception as PaginatorException;
 
 /**
  * Class Collection
- * 
+ *
  * @package Phalcon\Paginator\Adapter
  */
 class Collection implements PaginatorInterface
@@ -31,6 +31,12 @@ class Collection implements PaginatorInterface
      * @var integer
      */
     protected $limit;
+
+    /**
+     * @var array
+     */
+    protected $find_query;
+
     /**
      * Collection Adapter constructor
      * @param array $config
@@ -55,6 +61,7 @@ class Collection implements PaginatorInterface
 
         $this->setLimit($limit);
         $this->setCollection($collection);
+        $this->setFindQuery($find_query);
     }
      * @return int
      */
@@ -69,7 +76,7 @@ class Collection implements PaginatorInterface
     public function setLimit($limit)
     {
         $this->limit = (int)$limit;
-    }}    }
+    }
 
     /**
      * @return CollectionModel
@@ -85,3 +92,21 @@ class Collection implements PaginatorInterface
     public function setCollection($collection)
     {
         $this->collection = $collection;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFindQuery()
+    {
+        return $this->find_query;
+    }
+
+    /**
+     * @param array $find_query
+     */
+    public function setFindQuery(array $find_query)
+    {
+        $this->find_query = $find_query;
+    }
+    

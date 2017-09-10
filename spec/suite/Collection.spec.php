@@ -16,6 +16,7 @@ describe(Paginator::class, function () {
         return [
             'limit' => 3,
             'collection' => $this->Collection,
+            'find_query' => [],
             'page' => 2
         ];
     });
@@ -89,6 +90,51 @@ describe(Paginator::class, function () {
                         new Paginator($this->config);
                     };
                     expect($closure)->toThrow(new PaginatorException());
+                });
+            });
+        });
+
+        context('setting the query', function () {
+
+            context('when a query array is given', function () {
+                beforeEach(function () {
+                    $this->find_array = [
+                        [
+                            'some_key' => 'some_value'
+                        ],
+                        'sort' => [
+                            'another_key' => 'another_value'
+                        ]
+                    ];
+                    $this->config = $this->default_config;
+                    $this->config['find_query'] = $this->find_array;
+                });
+
+                it('sets the query array on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setFindQuery')
+                        ->with($this->find_array);
+
+                    $paginator = new Paginator($this->config);
+
+                    expect($paginator->getFindQuery())->toBe($this->find_array);
+                });
+            });
+
+            context('when a query array is not given', function () {
+                beforeEach(function () {
+                    $this->config = $this->default_config;
+                    unset($this->config['find_query']);
+                });
+
+                it('sets an empty array as the query array', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setFindQuery')
+                        ->with([]);
+
+                    $paginator = new Paginator($this->config);
+
+                    expect($paginator->getFindQuery())->toBe([]);
                 });
             });
         });
