@@ -12,7 +12,8 @@ use Phalcon\Paginator\AdapterInterface as PaginatorInterface;
 
 /**
  * Class Collection
- * @package Lancermall\Core\Paginator
+ * 
+ * @package Phalcon\Paginator\Adapter
  */
 class Collection implements PaginatorInterface
 {

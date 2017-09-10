@@ -1,13 +1,20 @@
 <?php
 
 use Kahlan\Plugin\Double;
+use Phalcon\Mvc\Collection;
 use Phalcon\Paginator\Adapter\Collection as Paginator;
 
 describe(Paginator::class, function () {
+    given('Collection', function () {
+        return Double::classname([
+            'extends' => Collection::class
+        ]);
+    });
 
     given('default_config', function () {
         return [
             'limit' => 3,
+            'collection' => $this->Collection,
         ];
     });
 
@@ -49,10 +56,38 @@ describe(Paginator::class, function () {
             });
         });
 
+        context('setting the collection', function () {
+
+            context('when a Collection is given', function () {
+                beforeEach(function () {
+                    $this->config = $this->default_config;
+                });
+                it('sets the Collection on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setCollection')
+                        ->with($this->Collection);
+
+                    $paginator = new Paginator($this->config);
+
+                    expect($paginator->getCollection())->toBe($this->Collection);
+                });
             });
 
+            context('when a Collection is not given', function () {
+                beforeEach(function () {
+                    $this->config = $this->default_config;
+                    unset($this->config['collection']);
+                });
 
+                it('throws an exception', function () {
+                    expect(Paginator::class)
+                        ->not->toReceive('setCollection');
 
+                    $closure = function () {
+                        new Paginator($this->config);
+                    };
+                    expect($closure)->toThrow(new \Phalcon\Paginator\Exception())
+                });
             });
         });
     });
