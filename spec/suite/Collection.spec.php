@@ -12,38 +12,47 @@ describe(Paginator::class, function () {
     });
 
     describe('->__construct()', function () {
-        context('when a limit is given', function () {
-            beforeEach(function () {
-                $this->limit = 13;
-                $this->config = $this->default_config;
-                $this->config['limit'] = $this->limit;
+        context('setting the limit', function () {
+            context('when a limit is given', function () {
+                beforeEach(function () {
+                    $this->limit = 13;
+                    $this->config = $this->default_config;
+                    $this->config['limit'] = $this->limit;
+                });
+
+                it('sets the limit on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setLimit')
+                        ->with($this->limit);
+
+                    $paginator = new Paginator($this->config);
+
+                    expect($paginator->getLimit())->toBe($this->limit);
+                });
             });
 
-            it('sets the limit on the instance', function () {
-                expect(Paginator::class)
-                    ->toReceive('setLimit')
-                    ->with($this->limit);
+            context('when a limit is not given', function () {
+                beforeEach(function () {
+                    $this->config = $this->default_config;
+                    unset($this->config['limit']);
+                });
 
-                $paginator = new Paginator($this->config);
+                it('sets the limit to "DEFAULT_LIMIT" on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setLimit')
+                        ->with(Paginator::DEFAULT_LIMIT);
 
-                expect($paginator->getLimit())->toBe($this->limit);
+                    $paginator = new Paginator($this->config);
+
+                    expect($paginator->getLimit())->toBe(Paginator::DEFAULT_LIMIT);
+                });
             });
         });
 
-        context('when a limit is not given', function () {
-            beforeEach(function () {
-                $this->config = $this->default_config;
-                unset($this->config['limit']);
             });
 
-            it('sets the limit to "DEFAULT_LIMIT" on the instance', function () {
-                expect(Paginator::class)
-                    ->toReceive('setLimit')
-                    ->with(Paginator::DEFAULT_LIMIT);
 
-                $paginator = new Paginator($this->config);
 
-                expect($paginator->getLimit())->toBe(Paginator::DEFAULT_LIMIT);
             });
         });
     });
