@@ -1,0 +1,26 @@
+{
+    "name": "amoreno/phalcon-collection-paginator",
+    "description": "A Phalcon paginator adapter for Phalcon Collections",
+    "require": {
+        "ext-phalcon": "^3.2"
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^3.1",
+        "phalcon/ide-stubs": "^3.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Angel S. Moreno",
+            "email": "angelxmoreno@gmail.com"
+        }
+    ],
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phalcon\\Paginator\\Adapter\\": "src/"
+        }
+    }
+}
