@@ -8,7 +8,9 @@ namespace Phalcon\Paginator\Adapter;
  * @package Phalcon\Paginator\Adapter
  */
 
+use Phalcon\Mvc\Collection as CollectionModel;
 use Phalcon\Paginator\AdapterInterface as PaginatorInterface;
+use Phalcon\Paginator\Exception as PaginatorException;
 
 /**
  * Class Collection
@@ -18,21 +20,42 @@ use Phalcon\Paginator\AdapterInterface as PaginatorInterface;
 class Collection implements PaginatorInterface
 {
     const DEFAULT_LIMIT = 30;
+    const MISSING_COLLECTION = 'Missing Collection';
 
     /**
+     * @var CollectionModel
+     */
+    protected $collection;
+
     /**
      * @var integer
      */
     protected $limit;
-     * Adapter constructor
-     *
+    /**
+     * Collection Adapter constructor
      * @param array $config
+     *
+     * @throws PaginatorException
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $limit = isset($config['limit']) ? $config['limit'] : self::DEFAULT_LIMIT;
+
+        if (!isset($config['collection'])) {
+            throw new PaginatorException(self::MISSING_COLLECTION);
+        }
+        $collection = $config['collection'];
+        $find_query = isset($config['find_query']) ? $config['find_query'] : [];
+
+        $current_page = (isset($config['current_page']))
+            ? $config['current_page']
+            : (isset($config['page']))
+                ? $config['page']
+                : 1;
+
         $this->setLimit($limit);
-    }    /**
+        $this->setCollection($collection);
+    }
      * @return int
      */
     public function getLimit()
@@ -46,4 +69,19 @@ class Collection implements PaginatorInterface
     public function setLimit($limit)
     {
         $this->limit = (int)$limit;
-    }}
+    }}    }
+
+    /**
+     * @return CollectionModel
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param string|CollectionModel $collection
+     */
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
