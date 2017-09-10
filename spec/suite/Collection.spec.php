@@ -3,6 +3,7 @@
 use Kahlan\Plugin\Double;
 use Phalcon\Mvc\Collection;
 use Phalcon\Paginator\Adapter\Collection as Paginator;
+use Phalcon\Paginator\Exception as PaginatorException;
 
 describe(Paginator::class, function () {
     given('Collection', function () {
@@ -15,6 +16,7 @@ describe(Paginator::class, function () {
         return [
             'limit' => 3,
             'collection' => $this->Collection,
+            'page' => 2
         ];
     });
 
@@ -86,7 +88,7 @@ describe(Paginator::class, function () {
                     $closure = function () {
                         new Paginator($this->config);
                     };
-                    expect($closure)->toThrow(new \Phalcon\Paginator\Exception())
+                    expect($closure)->toThrow(new PaginatorException());
                 });
             });
         });
