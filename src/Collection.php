@@ -38,6 +38,11 @@ class Collection implements PaginatorInterface
     protected $find_query;
 
     /**
+     * @var integer
+     */
+    protected $current_page;
+
+    /**
      * Collection Adapter constructor
      * @param array $config
      *
@@ -55,13 +60,12 @@ class Collection implements PaginatorInterface
 
         $current_page = (isset($config['current_page']))
             ? $config['current_page']
-            : (isset($config['page']))
-                ? $config['page']
-                : 1;
+            : (isset($config['page']) ? $config['page'] : 1);
 
         $this->setLimit($limit);
         $this->setCollection($collection);
         $this->setFindQuery($find_query);
+        $this->setCurrentPage($current_page);
     }
      * @return int
      */
@@ -110,3 +114,18 @@ class Collection implements PaginatorInterface
         $this->find_query = $find_query;
     }
     
+    /**
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return $this->current_page;
+    }
+
+    /**
+     * @param int $current_page
+     */
+    public function setCurrentPage($current_page)
+    {
+        $this->current_page = (int)$current_page;
+    }

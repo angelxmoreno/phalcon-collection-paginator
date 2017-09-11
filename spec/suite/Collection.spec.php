@@ -138,5 +138,64 @@ describe(Paginator::class, function () {
                 });
             });
         });
+
+        context('setting the current page', function () {
+
+            context('when only a current_page is given', function () {
+                beforeEach(function () {
+                    $this->current_page = 34;
+                    $this->config = $this->default_config;
+                    $this->config['current_page'] = $this->current_page;
+                });
+
+                it('sets the current page value to current_page on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setCurrentPage')
+                        ->with($this->current_page);
+
+                    $paginator = new Paginator($this->config);
+                    expect($paginator->getCurrentPage())->toBe($this->current_page);
+                });
+            });
+
+            context('when only a page is given', function () {
+                beforeEach(function () {
+                    $this->page = 56;
+                    $this->config = $this->default_config;
+                    $this->config['page'] = $this->page;
+                });
+
+                it('sets the current page value to page on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setCurrentPage')
+                        ->with($this->page);
+
+                    $paginator = new Paginator($this->config);
+                    expect($paginator->getCurrentPage())->toBe($this->page);
+                });
+            });
+
+            context('when both a current_page and page are given', function () {
+                beforeEach(function () {
+                    $this->config = $this->default_config;
+
+                    $this->page = 78;
+                    $this->config['page'] = $this->page;
+
+                    $this->current_page = 90;
+                    $this->config['current_page'] = $this->current_page;
+                });
+
+                it('sets the current page value to current_page on the instance', function () {
+                    expect(Paginator::class)
+                        ->toReceive('setCurrentPage')
+                        ->with($this->current_page);
+
+                    $paginator = new Paginator($this->config);
+                    expect($paginator->getCurrentPage())->toBe($this->current_page);
+                    expect($paginator->getCurrentPage())->not->toBe($this->page);
+                });
+            });
+        });
     });
 });
