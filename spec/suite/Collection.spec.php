@@ -197,4 +197,57 @@ describe(Paginator::class, function () {
             });
         });
     });
+
+    describe('->getPaginate()', function () {
+        beforeAll(function () {
+            $this->paginator = new Paginator($this->default_config);
+            $this->pageset = $this->paginator->getPaginate();
+        });
+
+        it('creates an \stdClass with expected properties', function () {
+            expect($this->pageset)->toBeAnInstanceOf(\stdClass::class);
+        });
+
+        it('contains the correct array slice', function () {
+            $limit = $this->default_config['limit'];
+            $page = $this->default_config['page'];
+
+            $expected = [];
+            $expected_objs = TestModel::find([
+                'limit' => $limit,
+                'skip' => ($page - 1) * $limit
+            ]);
+            foreach ($expected_objs as $obj) {
+                $array = $obj->toArray();
+                $array['_id'] = (string)$array['_id'];
+                $expected[] = $array;
+            }
+
+            $actual = [];
+            $actual_objs = $this->pageset->items;
+            foreach ($actual_objs as $obj) {
+                $array = $obj->toArray();
+                $array['_id'] = (string)$array['_id'];
+                $actual[] = $array;
+            }
+
+            expect($actual)->toBe($expected);
+
+        });
+        it('contains expected properties', function () {
+            $this->expectations = [
+                'first' => 1,
+                'before' => 1,
+                'current' => 2,
+                'last' => 4,
+                'next' => 3,
+                'total_pages' => 4,
+                'total_items' => 10,
+                'limit' => 3
+            ];
+            foreach ($this->expectations as $key => $expected) {
+                expect($this->pageset->{$key})->toBe($expected);
+            }
+        });
+    });
 });

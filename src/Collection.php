@@ -61,6 +61,45 @@ class Collection implements PaginatorInterface
         $this->setFindQuery($find_query);
         $this->setCurrentPage($current_page);
     }
+
+    /**
+     * Returns a slice of the resultset to show in the pagination
+     *
+     * @return \stdClass
+     */
+    public function getPaginate()
+    {
+        $find_query = $this->buildQuery();
+        $collection = $this->getCollection();
+        $result = $this->paginate($collection, $find_query);
+
+        return $this->createPaginationDataObj($result);
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildQuery()
+    {
+        $find_query = $this->getFindQuery();
+        $find_query['limit'] = $this->getLimit();
+        $find_query['skip'] = ($this->getCurrentPage() - 1) * $this->getLimit();
+
+        return $find_query;
+    }
+
+    /**
+     * @param string|CollectionModel $collection
+     * @param array $query
+     *
+     * @return array
+     */
+    protected function paginate($collection, array $query)
+    {
+        return $collection::find($query);
+    }
+
+    /**
      * @return int
      */
     public function getLimit()
@@ -123,3 +162,50 @@ class Collection implements PaginatorInterface
     {
         $this->current_page = (int)$current_page;
     }
+
+    /**
+     * @return integer
+     */
+    protected function calcTotalItemsCount()
+    {
+        $collection = $this->getCollection();
+
+        return (int)$collection::count($this->getFindQuery());
+    }
+
+    /**
+     * @param integer $total_items
+     *
+     * @return integer
+     */
+    protected function calcTotalPages($total_items)
+    {
+        return (int)ceil($total_items / $this->getLimit());
+    }
+
+    /**
+     * @param array $items
+     * @return \stdClass
+     */
+    protected function createPaginationDataObj(array $items)
+    {
+        $current = $this->getCurrentPage();
+        $total_items = $this->calcTotalItemsCount();
+        $last = $this->calcTotalPages($total_items);
+        $before = max(1, $current - 1);
+        $next = min($last, $current + 1);
+
+        $page = new \stdClass();
+        $page->items = $items;
+        $page->first = 1;
+        $page->before = $before;
+        $page->current = $current;
+        $page->last = $last;
+        $page->next = $next;
+        $page->total_pages = $last;
+        $page->total_items = $total_items;
+        $page->limit = $this->getLimit();
+
+        return $page;
+    }
+}
