@@ -2,12 +2,6 @@
 
 namespace Phalcon\Paginator\Adapter;
 
-/**
- * Class Collection
- *
- * @package Phalcon\Paginator\Adapter
- */
-
 use Phalcon\Mvc\Collection as CollectionModel;
 use Phalcon\Paginator\AdapterInterface as PaginatorInterface;
 use Phalcon\Paginator\Exception as PaginatorException;
@@ -83,7 +77,7 @@ class Collection implements PaginatorInterface
     }
 
     /**
-     * @return CollectionModel
+     * @return string|CollectionModel
      */
     public function getCollection()
     {
@@ -113,7 +107,7 @@ class Collection implements PaginatorInterface
     {
         $this->find_query = $find_query;
     }
-    
+
     /**
      * @return int
      */

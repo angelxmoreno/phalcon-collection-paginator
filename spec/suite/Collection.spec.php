@@ -1,26 +1,25 @@
 <?php
 
-use Kahlan\Plugin\Double;
-use Phalcon\Mvc\Collection;
+use CollectionModel\TestModel;
 use Phalcon\Paginator\Adapter\Collection as Paginator;
 use Phalcon\Paginator\Exception as PaginatorException;
 
 describe(Paginator::class, function () {
-    given('Collection', function () {
-        return Double::classname([
-            'extends' => Collection::class
-        ]);
-    });
 
     given('default_config', function () {
         return [
             'limit' => 3,
-            'collection' => $this->Collection,
+            'collection' => TestModel::class,
             'find_query' => [],
             'page' => 2
         ];
     });
-
+    beforeAll(function () {
+        TestModel::populate();
+    });
+    afterAll(function () {
+        TestModel::cleanUp();
+    });
     describe('->__construct()', function () {
         context('setting the limit', function () {
             context('when a limit is given', function () {
@@ -68,11 +67,11 @@ describe(Paginator::class, function () {
                 it('sets the Collection on the instance', function () {
                     expect(Paginator::class)
                         ->toReceive('setCollection')
-                        ->with($this->Collection);
+                        ->with(TestModel::class);
 
                     $paginator = new Paginator($this->config);
 
-                    expect($paginator->getCollection())->toBe($this->Collection);
+                    expect($paginator->getCollection())->toBe(TestModel::class);
                 });
             });
 
