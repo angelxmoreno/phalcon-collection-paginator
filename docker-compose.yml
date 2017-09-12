@@ -1,0 +1,14 @@
+version: '2'
+services:
+  fpm:
+    container_name: "test-fpm"
+    image: angelxmoreno/php-fpm-alpine
+    volumes:
+     - .:/var/www/html
+    links:
+     - mongo
+  mongo:
+    container_name: "test-mongo"
+    image: mongo:3.0
+    ports:
+     - "29017:27017"

@@ -31,3 +31,14 @@ $di->setShared('collectionManager', function () {
         'extends' => CollectionManager::class
     ]);
 });
+
+
+$di->setShared('mongo', function () {
+    $server = 'mongodb://mongo';
+    $db = 'test';
+
+    $mongo = new \MongoClient($server);
+    $collection = $mongo->selectDB($db);
+
+    return $collection;
+});
