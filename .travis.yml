@@ -13,7 +13,7 @@ php:
 before_install:
   - echo "Running BeforeInstall"
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - vendor/bin/install-phalcon.sh 3.0.x
+  - bin/install-phalcon.sh 3.0.x
 
 # Commands to be run before your environment runs.
 before_script:
