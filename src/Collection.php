@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Collection.php
+ *
+ * @author Angel S. Moreno <angelxmoreno@gmail.com>
+ * @copyright 2017 AngelXMoreno
+ * @license http://www.spdx.org/licenses/MIT MIT License
+ * @see https://github.com/angelxmoreno/phalcon-collection-paginator
+ */
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Collection as CollectionModel;
@@ -10,6 +17,8 @@ use Phalcon\Paginator\Exception as PaginatorException;
  * Class Collection
  *
  * @package Phalcon\Paginator\Adapter
+ * @author Angel S. Moreno <angelxmoreno@gmail.com>
+ * @license http://www.spdx.org/licenses/MIT MIT License
  */
 class Collection implements PaginatorInterface
 {
@@ -38,6 +47,7 @@ class Collection implements PaginatorInterface
 
     /**
      * Collection Adapter constructor
+     *
      * @param array $config
      *
      * @throws PaginatorException
@@ -91,7 +101,6 @@ class Collection implements PaginatorInterface
     /**
      * @param string|CollectionModel $collection
      * @param array $query
-     *
      * @return array
      */
     protected function paginate($collection, array $query)
@@ -109,6 +118,7 @@ class Collection implements PaginatorInterface
 
     /**
      * @param int $limit
+     * @return void
      */
     public function setLimit($limit)
     {
@@ -125,6 +135,7 @@ class Collection implements PaginatorInterface
 
     /**
      * @param string|CollectionModel $collection
+     * @return void
      */
     public function setCollection($collection)
     {
@@ -141,6 +152,7 @@ class Collection implements PaginatorInterface
 
     /**
      * @param array $find_query
+     * @return void
      */
     public function setFindQuery(array $find_query)
     {
@@ -157,6 +169,7 @@ class Collection implements PaginatorInterface
 
     /**
      * @param int $current_page
+     * @return void
      */
     public function setCurrentPage($current_page)
     {
