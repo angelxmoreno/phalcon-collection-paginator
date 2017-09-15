@@ -1,1 +1,0 @@
-../vendor/techpivot/phalcon-ci-installer/bin/install-phalcon.sh
