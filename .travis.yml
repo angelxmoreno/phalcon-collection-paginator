@@ -20,10 +20,14 @@ before_script:
 # Commands you want to run that will verify your build.
 script:
   - echo "RunningScript"
-  - docker exec test-fpm bin/kahlan --cc=true --reporter=verbose
+  - docker exec test-fpm ./bin/kahlan --cc=true --src=src --spec=spec/suite --reporter=verbose --coverage=4 --clover=clover.xml
 
 after_success:
   - echo "Running AfterSuccess"
+
+after_script:
+  - echo "Running AfterScript"
+  - php ./bin/codacycoverage clover clover.xml
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
