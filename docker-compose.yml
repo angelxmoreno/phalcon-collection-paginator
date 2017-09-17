@@ -2,7 +2,7 @@ version: '2'
 services:
   fpm:
     container_name: "test-fpm"
-    image: angelxmoreno/php-fpm-alpine
+    image: angelxmoreno/php-fpm-alpine:latest
     volumes:
      - .:/var/www/html
     links:
