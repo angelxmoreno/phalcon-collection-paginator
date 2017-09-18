@@ -20,7 +20,7 @@ before_script:
 # Commands you want to run that will verify your build.
 script:
   - echo "RunningScript"
-  - docker exec test-fpm ./bin/kahlan --cc=true --src=src --spec=spec/suite --reporter=verbose --coverage=4 --clover=clover.xml
+  - ./bin/run_tests.sh
 
 after_success:
   - echo "Running AfterSuccess"
