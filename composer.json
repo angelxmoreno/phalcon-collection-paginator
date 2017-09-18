@@ -1,5 +1,5 @@
 {
-    "name": "amoreno/phalcon-collection-paginator",
+    "name": "angelxmoreno/phalcon-collection-paginator",
     "description": "A Phalcon paginator adapter for Phalcon Collections",
     "require": {
     },

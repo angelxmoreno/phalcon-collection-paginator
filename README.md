@@ -14,7 +14,7 @@ available to the `Phalcon\Mvc\Model`, I expected to see similar adapters for `Ph
 1. Use composer
 2. Run
     ```bash
-    composer require amoreno/phalcon-collection-paginator
+    composer require angelxmoreno/phalcon-collection-paginator
     ```
 3. Make sure to include Composer's autoload.php file as part of your bootstrapping process
     ```bash
