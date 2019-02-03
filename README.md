@@ -6,7 +6,7 @@ A Phalcon paginator adapter for Phalcon Collections
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://angelxmoreno.mit-license.org)
 
 ## Why create this?
-Being familiar with the various [Pagination data adapters](https://olddocs.phalconphp.com/en/3.0.0/reference/pagination.html#data-adapters) 
+Being familiar with the various [Pagination data adapters](https://docs.phalconphp.com/3.4/en/db-pagination#data-adapters) 
 available to the `Phalcon\Mvc\Model`, I expected to see similar adapters for `Phalcon\Mvc\Collection`. This project is to provide a pagination data adapter for ODM in Phalcon.
   
 ## Installation
